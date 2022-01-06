@@ -1,4 +1,5 @@
-# AdventOfCode21
+# Advent Of Code
 
-My attempts at solving the advent of code for year 2021. <br>
+The repository for any attemps made at cracking the Advent of Code problems.<br>
+
 Advent of code can be found at this <a href="https://adventofcode.com/2021">url</a>.

@@ -45,10 +45,10 @@ def sum_ribbons(measures: list):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("input", choices=['test', 'input'])
+    parser.add_argument("mode", choices=['test', 'input'])
     args = parser.parse_args()
 
-    measures = load_data(args.input)
+    measures = load_data(args.mode)
     total, areas = sum_areas(measures)
     print(int(total))
     total, ribbons = sum_ribbons(measures)

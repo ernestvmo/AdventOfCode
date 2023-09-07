@@ -1,7 +1,5 @@
 from aocd.models import Puzzle
 from argparse import ArgumentParser
-import numpy as np
-import pprint
 
 def load_data(mode: str):
     if mode == "test":

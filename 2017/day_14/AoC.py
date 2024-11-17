@@ -5,35 +5,12 @@ from operator import xor
 
 def load_data(mode: str):
     if mode == "test":
-        # data = Puzzle(2017, 10).example_data.splitlines()
-        with open("./2017/day_10/test.txt") as file:
+        with open("./2017/day_14/test.txt") as file:
             data = file.readlines()
-        length = 256
     else:
-        data = Puzzle(2017, 10).input_data.splitlines()
-        length = 256
+        data = Puzzle(2017, 14).input_data.splitlines()
 
-    return data[0], list(range(length))
-
-def process_data(data: str):
-    return [int(n) for n in data.split(",")]
-
-def twist(list_: list, instructions: list):
-    pos = skip_size = 0
-    for instruction in instructions:
-        if pos >= len(list_):
-            pos -= len(list_)
-        if pos + instruction >= len(list_):
-            r_list_ = [elem for elem in reversed(list_[pos:pos+instruction]+list_[0:pos+instruction-len(list_)])]
-            # print(r_list_, r_list_[:len(list_[pos:pos+instruction])], r_list_[len(list_[pos:pos+instruction]):])
-            list_[pos:pos+instruction] = r_list_[:len(list_[pos:pos+instruction])]
-            list_[0:pos+instruction-len(list_)] = r_list_[len(list_[pos:pos+instruction]):]
-        else:
-            list_[pos:pos+instruction] = reversed(list_[pos:pos+instruction])
-        pos += instruction + skip_size
-        skip_size += 1
-        # print("--", list_)
-    return list_[0]*list_[1]
+    return data[0]
 
 def instructions_to_ascii(data: list):
     sequence = []
@@ -69,16 +46,32 @@ def hexadicemalize(dense: list):
 def knot_hash(key: str):
     return hexadicemalize(sparse_to_dense_hash(twist_q2(list(range(256)), instructions_to_ascii(key))))
 
+def hex_to_bin(mkey: str, q: int = 1):
+    unseen = []
+    count = 0
+    for i in range(128):
+        key = f"{mkey}-{i}"
+        key = "".join(['{0:04b}'.format(int(c, 16)) for c in knot_hash(key)])
+        unseen += [(i, j) for j, d in enumerate(key) if d == '1']
+    if q == 1: return len(unseen)
+    while unseen:
+        queued = [unseen[0]]
+        while queued:
+            x, y = queued.pop()
+            if (x, y) in unseen:
+                unseen.remove((x, y))
+                queued += [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
+        count += 1
+    return count
+
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("mode", choices=['test', 'input'])
     args = parser.parse_args()
 
-    data, list_ = load_data(args.mode)
-    # instructions = process_data(data)
-    # n = twist(list[:], instructions)
-    # print(n)
+    data = load_data(args.mode)
+    n = hex_to_bin(data, q=1)
+    print(n)
 
-    instructions_ascii = instructions_to_ascii(data)
-    hex_ = knot_hash(data)
-    print(hex_)
+    n = hex_to_bin(data, q=2)
+    print(n)

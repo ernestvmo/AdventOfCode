@@ -1,0 +1,10 @@
+LR
+
+OOA = (OOB, XXX)
+OOB = (XXX, OOZ)
+OOZ = (OOB, XXX)
+QQA = (QQB, XXX)
+QQB = (QQC, QQC)
+QQC = (QQZ, QQZ)
+QQZ = (QQB, QQB)
+XXX = (XXX, XXX)

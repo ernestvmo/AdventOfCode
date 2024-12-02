@@ -9,11 +9,3 @@ repos:
     rev: 22.10.0
     hooks:
     -   id: black
--   repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.0.0
-    hooks:
-    -   id: commitizen
-#-   repo: https://github.com/pre-commit/mirrors-mypy
-#    rev: v1.13.0
-#    hooks:
-#        - id: mypy

@@ -17,20 +17,19 @@ def load_data(mode: str):
 
 
 def process_rotation(value, direction, turns):
-
     if direction == "L":
-        value -= turns
+        value -= turns % 100
         if value < 0:
             value = value + 100
     if direction == "R":
-        value += turns
+        value += turns % 100
         if value > 99:
             value = value - 100
 
     return value
 
 
-def process_rotation_(value, direction, turns, count=None):
+def process_rotation_with_method(value, direction, turns, count=None):
     old = value
     count += abs(turns // 100)
     if direction == "L":
@@ -51,18 +50,12 @@ def find_password(rotations, part_2=False):
     count = 0
     for i, rotation in enumerate(rotations):
         direction, turns = rotation[0], int(rotation[1:])
-        value = process_rotation(value, direction, turns % 100)
-        if value == 0:
-            count += 1
-    return count
-
-
-def find_password_(rotations, part_2=False):
-    value = 50
-    count = 0
-    for i, rotation in enumerate(rotations):
-        direction, turns = rotation[0], int(rotation[1:])
-        value, count = process_rotation_(value, direction, turns, count)
+        if not part_2:
+            value = process_rotation(value, direction, turns)
+            if value == 0:
+                count += 1
+        else:
+            value, count = process_rotation_with_method(value, direction, turns, count)
     return count
 
 
@@ -74,5 +67,5 @@ if __name__ == "__main__":
     data = load_data(args.mode)
     _1 = find_password(data)
     print(_1)
-    _2 = find_password_(data, True)
+    _2 = find_password(data, True)
     print(_2)

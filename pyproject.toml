@@ -13,7 +13,6 @@ matplotlib = "^3.9.2"
 
 
 [tool.poetry.group.dev.dependencies]
-ipykernel = "^6.29.5"
 scipy = "^1.14.1"
 browser-cookie3 = "^0.19.1"
 scikit-spatial = "^8.0.0"
